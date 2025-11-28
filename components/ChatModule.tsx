@@ -3,11 +3,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, User, Bot, Leaf, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { GeminiService } from '../services/geminiService';
-import { ChatMessage } from '../types';
+import { ChatMessage, Language } from '../types';
+import { getTranslation } from '../utils/translations';
+
+interface ChatModuleProps {
+  lang: Language;
+}
 
 const STORAGE_KEY = 'agriqnet_chat_history';
 
-const ChatModule: React.FC = () => {
+const ChatModule: React.FC<ChatModuleProps> = ({ lang }) => {
+  const t = getTranslation(lang);
   // Initialize messages from localStorage
   const savedMessages = (() => {
     try {
@@ -54,7 +60,7 @@ const ChatModule: React.FC = () => {
         parts: [{ text: m.text }]
       }));
 
-      const responseText = await GeminiService.chat(userMsg.text, history);
+      const responseText = await GeminiService.chat(userMsg.text, history, lang);
 
       const botMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -101,10 +107,10 @@ const ChatModule: React.FC = () => {
                <Bot size={20} />
              </div>
              <div>
-               <h3 className="font-bold text-gray-800">Agri-Advisor</h3>
+               <h3 className="font-bold text-gray-800">{t.chatTitle}</h3>
                <div className="flex items-center gap-1.5">
                  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                 <span className="text-xs text-green-600 font-medium">Online</span>
+                 <span className="text-xs text-green-600 font-medium">{t.online}</span>
                </div>
              </div>
           </div>
@@ -116,7 +122,7 @@ const ChatModule: React.FC = () => {
             }} 
             className="text-xs text-gray-400 hover:text-red-500 transition-colors"
           >
-            Clear Chat
+            {t.clearChat}
           </button>
         </div>
 
@@ -171,7 +177,7 @@ const ChatModule: React.FC = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyPress}
-              placeholder="Ask about crops, pests, or farming tips..."
+              placeholder={t.typeMsg}
               className="flex-1 bg-transparent px-6 py-4 outline-none text-gray-700 placeholder-gray-400"
             />
             <button 
@@ -190,7 +196,7 @@ const ChatModule: React.FC = () => {
         <div className="bg-gradient-to-b from-agri-50 to-white p-6 rounded-3xl border border-agri-100 h-full">
            <h4 className="font-bold text-agri-900 mb-4 flex items-center gap-2">
              <Sparkles size={18} className="text-yellow-500" />
-             Suggested Topics
+             {t.suggested}
            </h4>
            <div className="space-y-3">
              {['Best fertilizer for tomatoes?', 'How to treat aphid infestation?', 'Water requirements for corn', 'Organic pest control methods', 'Current wheat market trends'].map((topic, i) => (
@@ -205,9 +211,9 @@ const ChatModule: React.FC = () => {
            </div>
 
            <div className="mt-8 pt-6 border-t border-agri-100">
-             <h4 className="font-bold text-gray-800 text-sm mb-3">Today's Tip</h4>
+             <h4 className="font-bold text-gray-800 text-sm mb-3">{t.tip}</h4>
              <div className="p-4 bg-orange-50 rounded-xl border border-orange-100">
-               <p className="text-xs text-orange-800 italic">"Crop rotation helps return nutrients to the soil without synthetic fertilizers."</p>
+               <p className="text-xs text-orange-800 italic">"{t.tipContent}"</p>
              </div>
            </div>
         </div>

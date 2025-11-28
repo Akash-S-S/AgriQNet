@@ -1,7 +1,14 @@
+
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { ArrowUpRight, TrendingUp, Sprout, Tractor, Droplets, Map as MapIcon } from 'lucide-react';
 import WeatherWidget from './WeatherWidget';
+import { Language } from '../types';
+import { getTranslation } from '../utils/translations';
+
+interface DashboardProps {
+  lang: Language;
+}
 
 const yieldData = [
   { name: 'Jan', value: 4000 },
@@ -36,12 +43,13 @@ const StatCard: React.FC<{title: string, value: string, icon: any, color: string
     <div className="mt-4 flex items-center gap-1 text-sm text-green-600 bg-green-50 w-fit px-2 py-1 rounded-full">
       <ArrowUpRight size={14} />
       <span className="font-semibold">{trend}</span>
-      <span className="text-gray-400 font-normal ml-1">vs last month</span>
     </div>
   </div>
 );
 
-const Dashboard: React.FC = () => {
+const Dashboard: React.FC<DashboardProps> = ({ lang }) => {
+  const t = getTranslation(lang);
+
   return (
     <div className="space-y-6 animate-in fade-in duration-700">
       {/* Top Section: Hero + Weather */}
@@ -55,16 +63,16 @@ const Dashboard: React.FC = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-green-900/90 via-green-900/40 to-transparent flex items-center p-8 md:p-10">
             <div className="max-w-lg text-white space-y-5">
-              <h1 className="text-3xl md:text-5xl font-bold leading-tight">Welcome back, <br/>Farmer Joe!</h1>
+              <h1 className="text-3xl md:text-5xl font-bold leading-tight">{t.welcome} <br/>{t.farmer}!</h1>
               <div className="flex items-center gap-2 text-green-100 bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/10 w-fit">
                 <Sprout size={20} className="text-green-300" />
-                <span className="text-sm font-medium">Yield Prediction: <span className="text-white font-bold">+12%</span> this season</span>
+                <span className="text-sm font-medium">{t.yieldPred}: <span className="text-white font-bold">+12%</span></span>
               </div>
               <p className="text-green-50 text-base md:text-lg opacity-90 max-w-md">
                 Your soil nitrogen levels are optimal today. Recommended action: Start sowing corn in Sector 4.
               </p>
               <button className="bg-white text-green-800 px-8 py-3 rounded-full font-bold hover:bg-green-50 transition-colors shadow-lg hover:shadow-xl translate-y-1">
-                View Field Report
+                {t.fieldReport}
               </button>
             </div>
           </div>
@@ -72,23 +80,23 @@ const Dashboard: React.FC = () => {
 
         {/* Weather Widget Wrapper */}
         <div className="xl:col-span-1 h-full min-h-[350px]">
-          <WeatherWidget />
+          <WeatherWidget lang={lang} />
         </div>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard title="Total Yield" value="12.4 Tons" icon={Sprout} color="bg-green-500" trend="+12%" />
-        <StatCard title="Active Fields" value="8 Zones" icon={MapIcon} color="bg-blue-500" trend="+1 New" />
-        <StatCard title="Equipment Status" value="98% Good" icon={Tractor} color="bg-orange-500" trend="Stable" />
-        <StatCard title="Water Usage" value="2.1k Gal" icon={Droplets} color="bg-cyan-500" trend="-5%" />
+        <StatCard title={t.totalYield} value="12.4 Tons" icon={Sprout} color="bg-green-500" trend="+12%" />
+        <StatCard title={t.activeFields} value="8 Zones" icon={MapIcon} color="bg-blue-500" trend="+1 New" />
+        <StatCard title={t.equipStatus} value="98% Good" icon={Tractor} color="bg-orange-500" trend="Stable" />
+        <StatCard title={t.waterUsage} value="2.1k Gal" icon={Droplets} color="bg-cyan-500" trend="-5%" />
       </div>
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="font-bold text-lg text-gray-800">Yield Projection</h3>
+            <h3 className="font-bold text-lg text-gray-800">{t.yieldProj}</h3>
             <button className="p-2 hover:bg-gray-50 rounded-lg"><TrendingUp size={20} className="text-gray-400" /></button>
           </div>
           <div className="h-64">
@@ -112,7 +120,7 @@ const Dashboard: React.FC = () => {
 
         <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
           <div className="flex justify-between items-center mb-6">
-             <h3 className="font-bold text-lg text-gray-800">Soil Moisture Levels</h3>
+             <h3 className="font-bold text-lg text-gray-800">{t.soilMoisture}</h3>
              <div className="flex gap-2 text-sm">
                <span className="flex items-center gap-1 text-gray-500"><div className="w-2 h-2 rounded-full bg-blue-500"></div>This Week</span>
              </div>

@@ -1,6 +1,7 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { PestAnalysisResult, CropRecommendation, FertilizerPlan } from "../types";
+import { PestAnalysisResult, CropRecommendation, FertilizerPlan, Language } from "../types";
+import { LANGUAGES } from "../utils/translations";
 
 // Initialize Gemini Client
 // NOTE: In a real app, ensure process.env.API_KEY is defined.
@@ -12,13 +13,20 @@ export const GeminiService = {
   /**
    * General chat interaction
    */
-  async chat(message: string, history: {role: string, parts: {text: string}[]}[] = []): Promise<string> {
+  async chat(message: string, history: {role: string, parts: {text: string}[]}[] = [], lang: Language = 'en'): Promise<string> {
     try {
+      const languageName = LANGUAGES[lang];
       const model = 'gemini-2.5-flash';
       const chatSession = ai.chats.create({
         model,
         config: {
-          systemInstruction: "You are AgriQNet, an advanced agricultural AI assistant. \n\nGuidelines:\n1. Format your response using Markdown. Use bolding for key terms, lists for steps, and clear headings.\n2. If the user asks for a process (e.g., 'how to grow corn'), provide a structured step-by-step workflow.\n3. Keep answers concise, practical, and encouraging.",
+          systemInstruction: `You are AgriQNet, an advanced agricultural AI assistant. 
+          Respond strictly in the ${languageName} language.
+          
+          Guidelines:
+          1. Format your response using Markdown. Use bolding for key terms, lists for steps, and clear headings.
+          2. If the user asks for a process (e.g., 'how to grow corn'), provide a structured step-by-step workflow.
+          3. Keep answers concise, practical, and encouraging.`,
         },
         history: history.map(h => ({
             role: h.role,
@@ -37,12 +45,17 @@ export const GeminiService = {
   /**
    * Recommend crops based on soil data
    */
-  async recommendCrops(soil: any): Promise<CropRecommendation[]> {
+  async recommendCrops(soil: any, lang: Language = 'en'): Promise<CropRecommendation[]> {
     try {
+      const languageName = LANGUAGES[lang];
+      // Instructions: Values must be in target language, Keys must remain in English.
       const prompt = `Based on the following soil and environmental conditions, recommend the top 3 best suitable crops.
       Conditions: Nitrogen: ${soil.nitrogen}, Phosphorus: ${soil.phosphorus}, Potassium: ${soil.potassium}, pH: ${soil.ph}, Rainfall: ${soil.rainfall}mm.
       
       For each crop, provide a detailed analysis including scientific name, growth period, yield potential, and economic analysis.
+      
+      IMPORTANT: Provide all text content (descriptions, names, analysis) in ${languageName} language. 
+      However, keep the JSON property keys exactly as specified in the schema (e.g. "name", "scientificName").
       Return the result as a JSON array.`;
 
       const response = await ai.models.generateContent({
@@ -58,19 +71,19 @@ export const GeminiService = {
                 name: { type: Type.STRING },
                 scientificName: { type: Type.STRING },
                 confidence: { type: Type.NUMBER, description: "Percentage match 0-100" },
-                description: { type: Type.STRING, description: "A detailed description of why this crop fits." },
+                description: { type: Type.STRING, description: `A detailed description of why this crop fits in ${languageName}.` },
                 imageUrl: { type: Type.STRING, description: "Leave empty, handled by frontend" },
                 requirements: {
                   type: Type.OBJECT,
                   properties: {
-                    water: { type: Type.STRING },
-                    sun: { type: Type.STRING },
-                    soil: { type: Type.STRING }
+                    water: { type: Type.STRING, description: `Water needs in ${languageName}` },
+                    sun: { type: Type.STRING, description: `Sun needs in ${languageName}` },
+                    soil: { type: Type.STRING, description: `Soil needs in ${languageName}` }
                   }
                 },
-                growthPeriod: { type: Type.STRING, description: "e.g., 90-120 days" },
-                yieldPotential: { type: Type.STRING, description: "e.g., 4-5 tons/hectare" },
-                economicAnalysis: { type: Type.STRING, description: "Short profitability analysis" }
+                growthPeriod: { type: Type.STRING, description: `e.g., 90-120 days in ${languageName}` },
+                yieldPotential: { type: Type.STRING, description: `e.g., 4-5 tons/hectare in ${languageName}` },
+                economicAnalysis: { type: Type.STRING, description: `Short profitability analysis in ${languageName}` }
               }
             }
           }
@@ -89,9 +102,12 @@ export const GeminiService = {
   /**
    * Analyze pest image
    */
-  async analyzePestImage(base64Image: string): Promise<PestAnalysisResult> {
+  async analyzePestImage(base64Image: string, lang: Language = 'en'): Promise<PestAnalysisResult> {
     try {
-      const prompt = "Analyze this image. If it contains a plant pest or disease, identify it, estimate severity, and provide treatments. If no pest is found, state that.";
+      const languageName = LANGUAGES[lang];
+      const prompt = `Analyze this image. If it contains a plant pest or disease, identify it, estimate severity, and provide treatments. If no pest is found, state that.
+      IMPORTANT: Provide all text descriptions, names, and lists in ${languageName} language.
+      Keep JSON keys in English.`;
       
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
@@ -106,12 +122,12 @@ export const GeminiService = {
           responseSchema: {
             type: Type.OBJECT,
             properties: {
-              pestName: { type: Type.STRING },
+              pestName: { type: Type.STRING, description: `Name in ${languageName}` },
               confidence: { type: Type.NUMBER },
               severity: { type: Type.STRING, enum: ["Low", "Medium", "High", "Critical"] },
-              description: { type: Type.STRING },
-              treatments: { type: Type.ARRAY, items: { type: Type.STRING } },
-              preventions: { type: Type.ARRAY, items: { type: Type.STRING } }
+              description: { type: Type.STRING, description: `Description in ${languageName}` },
+              treatments: { type: Type.ARRAY, items: { type: Type.STRING }, description: `List of treatments in ${languageName}` },
+              preventions: { type: Type.ARRAY, items: { type: Type.STRING }, description: `List of preventions in ${languageName}` }
             }
           }
         }
@@ -129,9 +145,12 @@ export const GeminiService = {
   /**
    * Suggest fertilizer plan
    */
-  async recommendFertilizer(cropName: string, soilCondition: string): Promise<FertilizerPlan[]> {
+  async recommendFertilizer(cropName: string, soilCondition: string, lang: Language = 'en'): Promise<FertilizerPlan[]> {
     try {
-      const prompt = `Recommend 2 detailed fertilizer plans for growing ${cropName} in ${soilCondition} soil conditions. Focus on organic and sustainable options if possible.`;
+      const languageName = LANGUAGES[lang];
+      const prompt = `Recommend 2 detailed fertilizer plans for growing ${cropName} in ${soilCondition} soil conditions. Focus on organic and sustainable options if possible.
+      IMPORTANT: Provide all text content (names, descriptions, dosage) in ${languageName} language.
+      Keep JSON keys in English.`;
       
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',

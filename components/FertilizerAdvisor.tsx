@@ -2,11 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import { FlaskConical, Leaf, AlertCircle, Loader2, Calendar, Scale, CheckCircle2 } from 'lucide-react';
 import { GeminiService } from '../services/geminiService';
-import { FertilizerPlan } from '../types';
+import { FertilizerPlan, Language } from '../types';
+import { getTranslation } from '../utils/translations';
+
+interface FertilizerAdvisorProps {
+  lang: Language;
+}
 
 const STORAGE_KEY = 'agriqnet_fertilizer_advisor';
 
-const FertilizerAdvisor: React.FC = () => {
+const FertilizerAdvisor: React.FC<FertilizerAdvisorProps> = ({ lang }) => {
+  const t = getTranslation(lang);
   const [loading, setLoading] = useState(false);
 
   // Initialize state from localStorage
@@ -30,7 +36,7 @@ const FertilizerAdvisor: React.FC = () => {
     setLoading(true);
     setPlans([]); // Clear previous plans
     try {
-      const results = await GeminiService.recommendFertilizer(crop, soilType);
+      const results = await GeminiService.recommendFertilizer(crop, soilType, lang);
       setPlans(results);
     } catch (err) {
       console.error(err);
@@ -47,13 +53,13 @@ const FertilizerAdvisor: React.FC = () => {
            <div className="inline-flex p-3 rounded-full bg-yellow-100 text-yellow-600 mb-4">
              <FlaskConical size={32} />
            </div>
-           <h2 className="text-3xl font-bold text-gray-800">Smart Fertilizer Calculator</h2>
-           <p className="text-gray-500 mt-2">Get precise nutrient dosage plans tailored to your specific crop and soil type to maximize yield while maintaining soil health.</p>
+           <h2 className="text-3xl font-bold text-gray-800">{t.calcTitle}</h2>
+           <p className="text-gray-500 mt-2">{t.calcDesc}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
            <div className="space-y-2">
-             <label className="text-sm font-semibold text-gray-700">Target Crop</label>
+             <label className="text-sm font-semibold text-gray-700">{t.targetCrop}</label>
              <input 
               type="text" 
               placeholder="e.g. Tomato, Corn, Wheat"
@@ -63,17 +69,17 @@ const FertilizerAdvisor: React.FC = () => {
             />
            </div>
            <div className="space-y-2">
-             <label className="text-sm font-semibold text-gray-700">Soil Condition</label>
+             <label className="text-sm font-semibold text-gray-700">{t.soilCond}</label>
              <select 
               value={soilType}
               onChange={(e) => setSoilType(e.target.value)}
               className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-yellow-400 outline-none transition-all text-gray-900"
              >
-               <option value="Loamy">Loamy (Balanced)</option>
-               <option value="Clay">Clay (Heavy)</option>
-               <option value="Sandy">Sandy (Drains fast)</option>
-               <option value="Silt">Silt (Retains moisture)</option>
-               <option value="Peaty">Peaty (Acidic)</option>
+               <option value="Loamy">{t.loamy}</option>
+               <option value="Clay">{t.clay}</option>
+               <option value="Sandy">{t.sandy}</option>
+               <option value="Silt">{t.silt}</option>
+               <option value="Peaty">{t.peaty}</option>
              </select>
            </div>
         </div>
@@ -83,7 +89,7 @@ const FertilizerAdvisor: React.FC = () => {
           disabled={loading || !crop}
           className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-bold py-4 rounded-xl hover:shadow-xl hover:shadow-orange-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          {loading ? <Loader2 className="animate-spin" /> : 'Generate Nutrient Plan'}
+          {loading ? <Loader2 className="animate-spin" /> : t.genPlan}
         </button>
       </div>
 
@@ -109,7 +115,7 @@ const FertilizerAdvisor: React.FC = () => {
                       <Calendar size={20} />
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Application Frequency</h4>
+                      <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">{t.appFreq}</h4>
                       <p className="text-gray-900 font-medium text-sm">{plan.applicationFrequency}</p>
                     </div>
                  </div>
@@ -122,7 +128,7 @@ const FertilizerAdvisor: React.FC = () => {
                       <Scale size={20} />
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Recommended Dosage</h4>
+                      <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">{t.dosage}</h4>
                       <p className="text-gray-900 font-medium text-sm">{plan.dosage}</p>
                     </div>
                  </div>
@@ -132,7 +138,7 @@ const FertilizerAdvisor: React.FC = () => {
                 <div className="bg-red-50 border border-red-100 rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-2 text-red-700 font-bold text-xs uppercase tracking-wide">
                     <AlertCircle size={14} />
-                    <span>Important Warnings</span>
+                    <span>{t.warnings}</span>
                   </div>
                   <ul className="space-y-2">
                     {plan.warnings.map((w, i) => (

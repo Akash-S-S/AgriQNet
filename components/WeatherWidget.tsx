@@ -1,11 +1,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { CloudSun, Droplets, Wind, ThermometerSun, MapPin, Loader2, Sun, Cloud, CloudRain, CloudLightning, Snowflake, Search, AlertTriangle } from 'lucide-react';
-import { WeatherData } from '../types';
+import { WeatherData, Language } from '../types';
+import { getTranslation } from '../utils/translations';
+
+interface WeatherWidgetProps {
+  lang: Language;
+}
 
 const STORAGE_KEY = 'agriqnet_weather_loc';
 
-const WeatherWidget: React.FC = () => {
+const WeatherWidget: React.FC<WeatherWidgetProps> = ({ lang }) => {
+  const t = getTranslation(lang);
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -206,7 +212,7 @@ const WeatherWidget: React.FC = () => {
       <form onSubmit={handleSearch} className={`absolute ${alertInfo ? 'top-14' : 'top-4'} right-4 z-20 flex items-center shadow-lg rounded-full transition-all duration-300`}>
          <input 
             type="text" 
-            placeholder="Search city..." 
+            placeholder={t.searchCity}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-24 focus:w-36 transition-all duration-300 bg-white/20 backdrop-blur-md text-white placeholder-white/60 text-xs rounded-l-full px-3 py-1.5 outline-none border border-white/20 border-r-0"
@@ -236,24 +242,24 @@ const WeatherWidget: React.FC = () => {
         <div className="flex flex-col items-center">
           <Droplets size={20} className="mb-1 text-blue-200" />
           <span className="text-sm font-semibold">{weather.humidity}%</span>
-          <span className="text-xs text-blue-200">Humidity</span>
+          <span className="text-xs text-blue-200">{t.humidity}</span>
         </div>
         <div className="flex flex-col items-center border-l border-white/20">
           <Wind size={20} className="mb-1 text-blue-200" />
           <span className="text-sm font-semibold">{weather.windSpeed} <span className="text-[10px]">km/h</span></span>
-          <span className="text-xs text-blue-200">Wind</span>
+          <span className="text-xs text-blue-200">{t.wind}</span>
         </div>
         <div className="flex flex-col items-center border-l border-white/20">
           <ThermometerSun size={20} className="mb-1 text-blue-200" />
           <span className="text-sm font-semibold">High</span>
-          <span className="text-xs text-blue-200">UV Index</span>
+          <span className="text-xs text-blue-200">{t.uvIndex}</span>
         </div>
       </div>
 
       <div className="mt-auto pt-6">
         <h4 className="text-sm font-medium text-blue-100 mb-3 flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-blue-300"></span>
-          5-Day Forecast
+          {t.forecast}
         </h4>
         <div className="flex justify-between items-center text-center">
           {weather.forecast.map((day, idx) => (

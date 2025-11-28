@@ -2,11 +2,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Upload, AlertTriangle, ScanLine, ShieldCheck, Bug, Loader2 } from 'lucide-react';
 import { GeminiService } from '../services/geminiService';
-import { PestAnalysisResult } from '../types';
+import { PestAnalysisResult, Language } from '../types';
+import { getTranslation } from '../utils/translations';
+
+interface PestControlProps {
+  lang: Language;
+}
 
 const STORAGE_KEY = 'agriqnet_pest_control';
 
-const PestControl: React.FC = () => {
+const PestControl: React.FC<PestControlProps> = ({ lang }) => {
+  const t = getTranslation(lang);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -47,7 +53,7 @@ const PestControl: React.FC = () => {
     try {
       // Extract base64 part
       const base64Data = image.split(',')[1];
-      const analysis = await GeminiService.analyzePestImage(base64Data);
+      const analysis = await GeminiService.analyzePestImage(base64Data, lang);
       setResult(analysis);
     } catch (error) {
       alert("Analysis failed. Please try a clearer image.");
@@ -69,8 +75,8 @@ const PestControl: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in zoom-in-95 duration-500">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-800">AI Pest Diagnostics</h2>
-        <p className="text-gray-500 mt-2">Upload a photo of an affected plant leaf or bug for instant analysis.</p>
+        <h2 className="text-3xl font-bold text-gray-800">{t.pestTitle}</h2>
+        <p className="text-gray-500 mt-2">{t.pestDesc}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -80,7 +86,7 @@ const PestControl: React.FC = () => {
             <div className="relative w-full h-full rounded-2xl overflow-hidden group">
               <img src={image} alt="Uploaded" className="w-full h-64 object-cover md:h-full rounded-2xl" />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <button onClick={() => fileInputRef.current?.click()} className="bg-white text-gray-800 px-4 py-2 rounded-full font-medium">Change Photo</button>
+                <button onClick={() => fileInputRef.current?.click()} className="bg-white text-gray-800 px-4 py-2 rounded-full font-medium">{t.changePhoto}</button>
               </div>
             </div>
           ) : (
@@ -92,7 +98,7 @@ const PestControl: React.FC = () => {
                 <Upload size={32} />
               </div>
               <div className="text-center">
-                <p className="font-semibold text-gray-700">Click to upload</p>
+                <p className="font-semibold text-gray-700">{t.upload}</p>
                 <p className="text-sm text-gray-400">JPG, PNG supported</p>
               </div>
             </div>
@@ -107,7 +113,7 @@ const PestControl: React.FC = () => {
             }`}
           >
             {loading ? <Loader2 className="animate-spin" /> : <ScanLine />}
-            {loading ? 'Analyzing...' : 'Diagnose Problem'}
+            {loading ? t.analyzing : t.diagnose}
           </button>
         </div>
 
@@ -123,7 +129,7 @@ const PestControl: React.FC = () => {
           {loading && (
              <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 backdrop-blur z-20">
                <div className="w-16 h-16 border-4 border-agri-200 border-t-agri-600 rounded-full animate-spin mb-4"></div>
-               <p className="text-agri-800 font-medium">AI is examining the image...</p>
+               <p className="text-agri-800 font-medium">{t.analyzingPest}</p>
              </div>
           )}
 
@@ -134,9 +140,9 @@ const PestControl: React.FC = () => {
                    <h3 className="text-2xl font-bold text-gray-800">{result.pestName}</h3>
                    <div className="flex items-center gap-2 mt-2">
                      <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${getSeverityColor(result.severity)}`}>
-                       {result.severity} Risk
+                       {result.severity} {t.risk}
                      </span>
-                     <span className="text-sm text-gray-500">Confidence: {(result.confidence * 100).toFixed(0)}%</span>
+                     <span className="text-sm text-gray-500">{t.confidence}: {(result.confidence * 100).toFixed(0)}%</span>
                    </div>
                 </div>
                 <div className={`p-3 rounded-full ${result.pestName.toLowerCase().includes('no pest') ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
@@ -152,7 +158,7 @@ const PestControl: React.FC = () => {
                 <div>
                   <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
                     <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs">1</span>
-                    Suggested Treatments
+                    {t.treatments}
                   </h4>
                   <ul className="space-y-2">
                     {result.treatments.map((t, i) => (
@@ -169,7 +175,7 @@ const PestControl: React.FC = () => {
                 <div>
                   <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
                     <span className="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs">2</span>
-                    Preventive Measures
+                    {t.prevention}
                   </h4>
                   <ul className="space-y-2">
                     {result.preventions.map((p, i) => (

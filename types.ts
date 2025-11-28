@@ -1,6 +1,8 @@
 
 export type NavView = 'dashboard' | 'crops' | 'fertilizer' | 'pests' | 'chat';
 
+export type Language = 'en' | 'hi' | 'kn' | 'te';
+
 export interface WeatherData {
   temp: number;
   condition: string;

@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
-import { LayoutDashboard, Sprout, FlaskConical, Bug, MessageCircle, Menu, X, Leaf } from 'lucide-react';
-import { NavView } from './types';
+import { LayoutDashboard, Sprout, FlaskConical, Bug, MessageCircle, Menu, X, Leaf, Globe } from 'lucide-react';
+import { NavView, Language } from './types';
+import { TRANSLATIONS, LANGUAGES } from './utils/translations';
 import Dashboard from './components/Dashboard';
 import CropAdvisor from './components/CropAdvisor';
 import FertilizerAdvisor from './components/FertilizerAdvisor';
@@ -10,24 +11,28 @@ import ChatModule from './components/ChatModule';
 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<NavView>('dashboard');
+  const [activeLang, setActiveLang] = useState<Language>('en');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+
+  const t = TRANSLATIONS[activeLang];
 
   const navItems: {id: NavView, label: string, icon: any}[] = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'crops', label: 'Crop Advisor', icon: Sprout },
-    { id: 'fertilizer', label: 'Fertilizers', icon: FlaskConical },
-    { id: 'pests', label: 'Pest Control', icon: Bug },
-    { id: 'chat', label: 'Agri-Chat', icon: MessageCircle },
+    { id: 'dashboard', label: t.dashboard, icon: LayoutDashboard },
+    { id: 'crops', label: t.cropAdvisor, icon: Sprout },
+    { id: 'fertilizer', label: t.fertilizers, icon: FlaskConical },
+    { id: 'pests', label: t.pestControl, icon: Bug },
+    { id: 'chat', label: t.chat, icon: MessageCircle },
   ];
 
   const renderContent = () => {
     switch (activeView) {
-      case 'dashboard': return <Dashboard />;
-      case 'crops': return <CropAdvisor />;
-      case 'fertilizer': return <FertilizerAdvisor />;
-      case 'pests': return <PestControl />;
-      case 'chat': return <ChatModule />;
-      default: return <Dashboard />;
+      case 'dashboard': return <Dashboard lang={activeLang} />;
+      case 'crops': return <CropAdvisor lang={activeLang} />;
+      case 'fertilizer': return <FertilizerAdvisor lang={activeLang} />;
+      case 'pests': return <PestControl lang={activeLang} />;
+      case 'chat': return <ChatModule lang={activeLang} />;
+      default: return <Dashboard lang={activeLang} />;
     }
   };
 
@@ -104,6 +109,38 @@ const App: React.FC = () => {
            <div>
              <h1 className="text-2xl font-bold text-gray-900">{navItems.find(n => n.id === activeView)?.label}</h1>
              <p className="text-gray-500 text-sm mt-1">Smart agricultural insights powered by Gemini AI</p>
+           </div>
+           
+           {/* Language Selector */}
+           <div className="relative">
+             <button 
+               onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+               className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl border border-gray-200 text-gray-700 hover:border-agri-400 hover:text-agri-700 transition-colors shadow-sm"
+             >
+               <Globe size={18} />
+               <span className="font-medium text-sm">{LANGUAGES[activeLang]}</span>
+             </button>
+             
+             {isLangMenuOpen && (
+               <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 p-2 z-40 animate-in fade-in zoom-in-95 duration-200">
+                 {(Object.keys(LANGUAGES) as Language[]).map((code) => (
+                   <button
+                     key={code}
+                     onClick={() => {
+                       setActiveLang(code);
+                       setIsLangMenuOpen(false);
+                     }}
+                     className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                       activeLang === code 
+                         ? 'bg-agri-50 text-agri-700' 
+                         : 'text-gray-600 hover:bg-gray-50'
+                     }`}
+                   >
+                     {LANGUAGES[code]}
+                   </button>
+                 ))}
+               </div>
+             )}
            </div>
         </header>
 
