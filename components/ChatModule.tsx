@@ -83,6 +83,21 @@ const ChatModule: React.FC<ChatModuleProps> = ({ lang }) => {
     }
   };
 
+  // Logic to rotate tips every 24 hours
+  const getDailyTip = () => {
+    // Access the tipsList dynamically from translation object
+    const tips = (t as any).tipsList;
+    if (!tips || tips.length === 0) return "Farming is life.";
+    
+    // Calculate days since epoch (changes every 24 hours)
+    const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+    
+    // Select tip based on day index
+    return tips[dayIndex % tips.length];
+  };
+
+  const dailyTip = getDailyTip();
+
   const MarkdownComponents = {
     p: ({ ...props }) => <p className="mb-2 last:mb-0" {...props} />,
     ul: ({ ...props }) => <ul className="list-disc pl-5 mb-2 space-y-1" {...props} />,
@@ -213,7 +228,7 @@ const ChatModule: React.FC<ChatModuleProps> = ({ lang }) => {
            <div className="mt-8 pt-6 border-t border-agri-100">
              <h4 className="font-bold text-gray-800 text-sm mb-3">{t.tip}</h4>
              <div className="p-4 bg-orange-50 rounded-xl border border-orange-100">
-               <p className="text-xs text-orange-800 italic">"{t.tipContent}"</p>
+               <p className="text-xs text-orange-800 italic">"{dailyTip}"</p>
              </div>
            </div>
         </div>
