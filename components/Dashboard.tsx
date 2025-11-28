@@ -79,7 +79,7 @@ const Dashboard: React.FC<DashboardProps> = ({ lang }) => {
         </div>
 
         {/* Weather Widget Wrapper */}
-        <div className="xl:col-span-1 h-full min-h-[350px]">
+        <div id="weather-widget-container" className="xl:col-span-1 h-full min-h-[350px]">
           <WeatherWidget lang={lang} />
         </div>
       </div>
@@ -99,8 +99,8 @@ const Dashboard: React.FC<DashboardProps> = ({ lang }) => {
             <h3 className="font-bold text-lg text-gray-800">{t.yieldProj}</h3>
             <button className="p-2 hover:bg-gray-50 rounded-lg"><TrendingUp size={20} className="text-gray-400" /></button>
           </div>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <AreaChart data={yieldData}>
                 <defs>
                   <linearGradient id="colorYield" x1="0" y1="0" x2="0" y2="1">
@@ -125,8 +125,8 @@ const Dashboard: React.FC<DashboardProps> = ({ lang }) => {
                <span className="flex items-center gap-1 text-gray-500"><div className="w-2 h-2 rounded-full bg-blue-500"></div>This Week</span>
              </div>
           </div>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <BarChart data={moistureData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} />

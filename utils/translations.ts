@@ -87,7 +87,30 @@ export const TRANSLATIONS = {
     typeMsg: "Ask about crops, pests, or farming tips...",
     suggested: "Suggested Topics",
     tip: "Today's Tip",
-    tipContent: "Crop rotation helps return nutrients to the soil without synthetic fertilizers."
+    tipContent: "Crop rotation helps return nutrients to the soil without synthetic fertilizers.",
+
+    // Tour
+    takeTour: "Take a Tour",
+    tourNext: "Next",
+    tourBack: "Back",
+    tourSkip: "Skip",
+    tourFinish: "Finish",
+    tourStep1Title: "Language Selection",
+    tourStep1Desc: "Start here! Change the application language to Hindi, Kannada, or Telugu for better accessibility.",
+    tourStep2Title: "Dashboard",
+    tourStep2Desc: "This is your home. View a summary of your farm status, quick stats, and yield projections.",
+    tourStep3Title: "Weather Widget",
+    tourStep3Desc: "Check real-time weather and severe alerts. Use the search bar to check forecasts for other locations.",
+    tourStep4Title: "Crop Advisor",
+    tourStep4Desc: "Use this before planting. Enter your soil data to get AI-recommended crops suitable for your land.",
+    tourStep5Title: "Fertilizer Advisor",
+    tourStep5Desc: "Use this during growth. Get custom nutrient plans to maximize yield without harming the soil.",
+    tourStep6Title: "Pest Control",
+    tourStep6Desc: "Use this if you see bugs or disease. Upload a photo to identify pests and get treatment advice.",
+    tourStep7Title: "Agri-Chat",
+    tourStep7Desc: "Have a specific question? Chat with our AI assistant for instant answers about farming.",
+    tourStep8Title: "Return Home",
+    tourStep8Desc: "Click here anytime to return to the main dashboard."
   },
   hi: {
     dashboard: "डैशबोर्ड",
@@ -167,7 +190,30 @@ export const TRANSLATIONS = {
     typeMsg: "फसलों, कीटों या खेती के सुझावों के बारे में पूछें...",
     suggested: "सुझाए गए विषय",
     tip: "आज का सुझाव",
-    tipContent: "फसल चक्रण सिंथेटिक उर्वरकों के बिना मिट्टी में पोषक तत्वों को वापस लाने में मदद करता है।"
+    tipContent: "फसल चक्रण सिंथेटिक उर्वरकों के बिना मिट्टी में पोषक तत्वों को वापस लाने में मदद करता है।",
+
+    // Tour
+    takeTour: "टूर लें",
+    tourNext: "अगला",
+    tourBack: "वापस",
+    tourSkip: "छोड़ें",
+    tourFinish: "समाप्त",
+    tourStep1Title: "भाषा चयन",
+    tourStep1Desc: "यहाँ से शुरू करें! बेहतर पहुंच के लिए एप्लिकेशन की भाषा को हिंदी, कन्नड़ या तेलुगु में बदलें।",
+    tourStep2Title: "डैशबोर्ड",
+    tourStep2Desc: "यह आपका घर है। अपने खेत की स्थिति, त्वरित आंकड़े और उपज अनुमानों का सारांश देखें।",
+    tourStep3Title: "मौसम विजेट",
+    tourStep3Desc: "वास्तविक समय के मौसम और गंभीर चेतावनियों की जाँच करें। अन्य स्थानों के लिए पूर्वानुमान देखने के लिए खोज पट्टी का उपयोग करें।",
+    tourStep4Title: "फसल सलाहकार",
+    tourStep4Desc: "रोपण से पहले इसका उपयोग करें। अपनी भूमि के लिए उपयुक्त एआई-अनुशंसित फसलें प्राप्त करने के लिए अपनी मिट्टी का डेटा दर्ज करें।",
+    tourStep5Title: "उर्वरक सलाहकार",
+    tourStep5Desc: "विकास के दौरान इसका उपयोग करें। मिट्टी को नुकसान पहुँचाए बिना उपज को अधिकतम करने के लिए कस्टम पोषक तत्व योजनाएँ प्राप्त करें।",
+    tourStep6Title: "कीट नियंत्रण",
+    tourStep6Desc: "यदि आपको कीड़े या बीमारी दिखाई दे तो इसका उपयोग करें। कीटों की पहचान करने और उपचार सलाह प्राप्त करने के लिए एक फोटो अपलोड करें।",
+    tourStep7Title: "कृषि-चैट",
+    tourStep7Desc: "कोई विशिष्ट प्रश्न है? खेती के बारे में त्वरित उत्तर के लिए हमारे एआई सहायक के साथ चैट करें।",
+    tourStep8Title: "घर लौटें",
+    tourStep8Desc: "मुख्य डैशबोर्ड पर लौटने के लिए किसी भी समय यहाँ क्लिक करें।"
   },
   kn: {
     dashboard: "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
@@ -247,7 +293,30 @@ export const TRANSLATIONS = {
     typeMsg: "ಬೆಳೆಗಳು, ಕೀಟಗಳು ಅಥವಾ ಕೃಷಿ ಸಲಹೆಗಳ ಬಗ್ಗೆ ಕೇಳಿ...",
     suggested: "ಸೂಚಿಸಲಾದ ವಿಷಯಗಳು",
     tip: "ಇಂದಿನ ಸಲಹೆ",
-    tipContent: "ಬೆಳೆ ಬದಲಾವಣೆ ಮಾಡುವುದರಿಂದ ರಾಸಾಯನಿಕ ಗೊಬ್ಬರಗಳಿಲ್ಲದೆ ಮಣ್ಣಿಗೆ ಪೋಷಕಾಂಶಗಳನ್ನು ಹಿಂದಿರುಗಿಸಲು ಸಹಾಯವಾಗುತ್ತದೆ."
+    tipContent: "ಬೆಳೆ ಬದಲಾವಣೆ ಮಾಡುವುದರಿಂದ ರಾಸಾಯನಿಕ ಗೊಬ್ಬರಗಳಿಲ್ಲದೆ ಮಣ್ಣಿಗೆ ಪೋಷಕಾಂಶಗಳನ್ನು ಹಿಂದಿರುಗಿಸಲು ಸಹಾಯವಾಗುತ್ತದೆ.",
+
+    // Tour
+    takeTour: "ಪ್ರವಾಸ ಕೈಗೊಳ್ಳಿ",
+    tourNext: "ಮುಂದೆ",
+    tourBack: "ಹಿಂದೆ",
+    tourSkip: "ಸ್ಕಿಪ್ ಮಾಡಿ",
+    tourFinish: "ಮುಗಿಸಿ",
+    tourStep1Title: "ಭಾಷಾ ಆಯ್ಕೆ",
+    tourStep1Desc: "ಇಲ್ಲಿ ಪ್ರಾರಂಭಿಸಿ! ಉತ್ತಮ ಪ್ರವೇಶಕ್ಕಾಗಿ ಅಪ್ಲಿಕೇಶನ್ ಭಾಷೆಯನ್ನು ಹಿಂದಿ, ಕನ್ನಡ ಅಥವಾ ತೆಲುಗಿಗೆ ಬದಲಾಯಿಸಿ.",
+    tourStep2Title: "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+    tourStep2Desc: "ಇದು ನಿಮ್ಮ ಮುಖಪುಟ. ನಿಮ್ಮ ಕೃಷಿ ಸ್ಥಿತಿ, ತ್ವರಿತ ಅಂಕಿಅಂಶಗಳು ಮತ್ತು ಇಳುವರಿ ಅಂದಾಜುಗಳನ್ನು ವೀಕ್ಷಿಸಿ.",
+    tourStep3Title: "ಹವಾಮಾನ ವಿಜೆಟ್",
+    tourStep3Desc: "ನೈಜ-ಸಮಯದ ಹವಾಮಾನ ಮತ್ತು ಗಂಭೀರ ಎಚ್ಚರಿಕೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ. ಇತರ ಸ್ಥಳಗಳಿಗೆ ಮುನ್ಸೂಚನೆಗಳನ್ನು ನೋಡಲು ಹುಡುಕಾಟ ಪಟ್ಟಿಯನ್ನು ಬಳಸಿ.",
+    tourStep4Title: "ಬೆಳೆ ಸಲಹೆಗಾರ",
+    tourStep4Desc: "ನಾಟಿ ಮಾಡುವ ಮೊದಲು ಇದನ್ನು ಬಳಸಿ. ನಿಮ್ಮ ಭೂಮಿಗೆ ಸೂಕ್ತವಾದ ಎಐ-ಶಿಫಾರಸು ಮಾಡಿದ ಬೆಳೆಗಳನ್ನು ಪಡೆಯಲು ನಿಮ್ಮ ಮಣ್ಣಿನ ಡೇಟಾವನ್ನು ನಮೂದಿಸಿ.",
+    tourStep5Title: "ಗೊಬ್ಬರ ಸಲಹೆಗಾರ",
+    tourStep5Desc: "ಬೆಳವಣಿಗೆಯ ಸಮಯದಲ್ಲಿ ಇದನ್ನು ಬಳಸಿ. ಮಣ್ಣಿಗೆ ಹಾನಿಯಾಗದಂತೆ ಇಳುವರಿಯನ್ನು ಹೆಚ್ಚಿಸಲು ಕಸ್ಟಮ್ ಪೋಷಕಾಂಶಗಳ ಯೋಜನೆಗಳನ್ನು ಪಡೆಯಿರಿ.",
+    tourStep6Title: "ಕೀಟ ನಿಯಂತ್ರಣ",
+    tourStep6Desc: "ನೀವು ಕೀಟಗಳು ಅಥವಾ ರೋಗವನ್ನು ಕಂಡರೆ ಇದನ್ನು ಬಳಸಿ. ಕೀಟಗಳನ್ನು ಗುರುತಿಸಲು ಮತ್ತು ಚಿಕಿತ್ಸಾ ಸಲಹೆಯನ್ನು ಪಡೆಯಲು ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.",
+    tourStep7Title: "ಕೃಷಿ-ಚಾಟ್",
+    tourStep7Desc: "ನಿರ್ದಿಷ್ಟ ಪ್ರಶ್ನೆ ಇದೆಯೇ? ಕೃಷಿಯ ಬಗ್ಗೆ ತ್ವರಿತ ಉತ್ತರಗಳಿಗಾಗಿ ನಮ್ಮ ಎಐ ಸಹಾಯಕನೊಂದಿಗೆ ಚಾಟ್ ಮಾಡಿ.",
+    tourStep8Title: "ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ",
+    tourStep8Desc: "ಮುಖ್ಯ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಹಿಂತಿರುಗಲು ಯಾವಾಗ ಬೇಕಾದರೂ ಇಲ್ಲಿ ಕ್ಲಿಕ್ ಮಾಡಿ."
   },
   te: {
     dashboard: "డ్యాష్‌బోర్డ్",
@@ -316,7 +385,7 @@ export const TRANSLATIONS = {
     changePhoto: "ఫోటో మార్చండి",
     diagnose: "సమస్యను గుర్తించండి",
     analyzingPest: "AI చిత్రాన్ని పరిశీలిస్తోంది...",
-    treatments: "సూచించిన చికిత్సలు",
+    treatments: "ಸೂచించిన చికిత్సలు",
     prevention: "నివారణ చర్యలు",
     risk: "ప్రమాదం",
 
@@ -327,7 +396,30 @@ export const TRANSLATIONS = {
     typeMsg: "పంటలు, తెగుళ్లు లేదా వ్యవసాయ చిట్కాల గురించి అడగండి...",
     suggested: "సూచించిన అంశాలు",
     tip: "నేటి చిట్కా",
-    tipContent: "పంట మార్పిడి సింథటిక్ ఎరువులు లేకుండా నేలకు పోషకాలను తిరిగి ఇవ్వడానికి సహాయపడుతుంది."
+    tipContent: "పంట మార్పిడి సింథటిక్ ఎరువులు లేకుండా నేలకు పోషకాలను తిరిగి ఇవ్వడానికి సహాయపడుతుంది.",
+
+    // Tour
+    takeTour: "టూర్ తీసుకోండి",
+    tourNext: "తరువాత",
+    tourBack: "వెనుకకు",
+    tourSkip: "వదిలివేయి",
+    tourFinish: "ముగించు",
+    tourStep1Title: "భాష ఎంపిక",
+    tourStep1Desc: "ఇక్కడ ప్రారంభించండి! మెరుగైన ప్రాప్యత కోసం అప్లికేషన్ భాషను హిందీ, కన్నడ లేదా తెలుగుకు మార్చండి.",
+    tourStep2Title: "డ్యాష్‌బోర్డ్",
+    tourStep2Desc: "ఇది మీ హోమ్. మీ పొలం స్థితి, త్వరిత గణాంకాలు మరియు దిగుబడి అంచనాల సారాంశాన్ని వీక్షించండి.",
+    tourStep3Title: "వాతావరణ విడ్జెట్",
+    tourStep3Desc: "నిజ-సమయ వాతావరణం మరియు తీవ్రమైన హెచ్చరికలను తనిఖీ చేయండి. ఇతర ప్రాంతాల కోసం సూచనలను చూడటానికి శోధన పట్టీని ఉపయోగించండి.",
+    tourStep4Title: "పంట సలహాదారు",
+    tourStep4Desc: "నాటడానికి ముందు దీన్ని ఉపయోగించండి. మీ భూమికి తగిన AI-సిఫార్సు చేసిన పంటలను పొందడానికి మీ నేల డేటాను నమోదు చేయండి.",
+    tourStep5Title: "ఎరువుల సలహాదారు",
+    tourStep5Desc: "పెరుగుదల సమయంలో దీన్ని ఉపయోగించండి. నేలకు హాని కలిగించకుండా దిగుబడిని పెంచడానికి అనుకూల పోషక ప్రణాళికలను పొందండి.",
+    tourStep6Title: "చీడపీడల నివారణ",
+    tourStep6Desc: "మీరు పురుగులు లేదా వ్యాధిని చూస్తే దీన్ని ఉపయోగించండి. తెగుళ్లను గుర్తించడానికి మరియు చికిత్స సలహాలను పొందడానికి ఫోటోను అప్‌లోడ్ చేయండి.",
+    tourStep7Title: "అగ్రి-చాట్",
+    tourStep7Desc: "నిర్దిష్ట ప్రశ్న ఉందా? వ్యవసాయం గురించి తక్షణ సమాధానాల కోసం మా AI అసిస్టెంట్‌తో చాట్ చేయండి.",
+    tourStep8Title: "హోమ్‌కు తిరిగి వెళ్ళు",
+    tourStep8Desc: "ప్రధాన డ్యాష్‌బోర్డ్‌కు తిరిగి వెళ్లడానికి ఎప్పుడైనా ఇక్కడ క్లిక్ చేయండి."
   }
 };
 

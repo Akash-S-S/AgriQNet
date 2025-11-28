@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { LayoutDashboard, Sprout, FlaskConical, Bug, MessageCircle, Menu, X, Leaf, Globe } from 'lucide-react';
+import { LayoutDashboard, Sprout, FlaskConical, Bug, MessageCircle, Menu, X, Leaf, Globe, HelpCircle } from 'lucide-react';
 import { NavView, Language } from './types';
 import { TRANSLATIONS, LANGUAGES } from './utils/translations';
 import Dashboard from './components/Dashboard';
@@ -8,12 +8,14 @@ import CropAdvisor from './components/CropAdvisor';
 import FertilizerAdvisor from './components/FertilizerAdvisor';
 import PestControl from './components/PestControl';
 import ChatModule from './components/ChatModule';
+import TourGuide, { TourStep } from './components/TourGuide';
 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<NavView>('dashboard');
   const [activeLang, setActiveLang] = useState<Language>('en');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const [isTourOpen, setIsTourOpen] = useState(false);
 
   const t = TRANSLATIONS[activeLang];
 
@@ -24,6 +26,36 @@ const App: React.FC = () => {
     { id: 'pests', label: t.pestControl, icon: Bug },
     { id: 'chat', label: t.chat, icon: MessageCircle },
   ];
+
+  const tourSteps: TourStep[] = [
+    { targetId: 'lang-selector', titleKey: 'tourStep1Title', descKey: 'tourStep1Desc' },
+    { targetId: 'nav-item-dashboard', titleKey: 'tourStep2Title', descKey: 'tourStep2Desc' },
+    { targetId: 'weather-widget-container', titleKey: 'tourStep3Title', descKey: 'tourStep3Desc' },
+    { targetId: 'nav-item-crops', titleKey: 'tourStep4Title', descKey: 'tourStep4Desc' },
+    { targetId: 'nav-item-fertilizer', titleKey: 'tourStep5Title', descKey: 'tourStep5Desc' },
+    { targetId: 'nav-item-pests', titleKey: 'tourStep6Title', descKey: 'tourStep6Desc' },
+    { targetId: 'nav-item-chat', titleKey: 'tourStep7Title', descKey: 'tourStep7Desc' },
+    { targetId: 'nav-item-dashboard', titleKey: 'tourStep8Title', descKey: 'tourStep8Desc' },
+  ];
+
+  const handleTourStepChange = (stepIndex: number) => {
+    // Automatically switch views to show the component being explained
+    const step = tourSteps[stepIndex];
+    if (step.targetId.includes('weather') && activeView !== 'dashboard') {
+        setActiveView('dashboard');
+    } else if (step.targetId.includes('crops') && activeView !== 'crops') {
+        setActiveView('crops');
+    } else if (step.targetId.includes('fertilizer') && activeView !== 'fertilizer') {
+        setActiveView('fertilizer');
+    } else if (step.targetId.includes('pests') && activeView !== 'pests') {
+        setActiveView('pests');
+    } else if (step.targetId.includes('chat') && activeView !== 'chat') {
+        setActiveView('chat');
+    } else if (stepIndex === tourSteps.length - 1) {
+        // Return home at last step
+        setActiveView('dashboard');
+    }
+  };
 
   const renderContent = () => {
     switch (activeView) {
@@ -38,6 +70,14 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex font-sans">
+      <TourGuide 
+        steps={tourSteps} 
+        isOpen={isTourOpen} 
+        onClose={() => setIsTourOpen(false)} 
+        lang={activeLang} 
+        onStepChange={handleTourStepChange}
+      />
+
       {/* Sidebar - Desktop */}
       <aside className="hidden lg:flex flex-col w-72 bg-white border-r border-gray-200 h-screen sticky top-0 p-6 z-20">
         <div className="flex items-center gap-3 mb-10 px-2">
@@ -50,6 +90,7 @@ const App: React.FC = () => {
         <nav className="flex-1 space-y-2">
           {navItems.map((item) => (
             <button
+              id={`nav-item-${item.id}`}
               key={item.id}
               onClick={() => setActiveView(item.id)}
               className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-200 group ${
@@ -111,36 +152,47 @@ const App: React.FC = () => {
              <p className="text-gray-500 text-sm mt-1">Smart agricultural insights powered by Gemini AI</p>
            </div>
            
-           {/* Language Selector */}
-           <div className="relative">
-             <button 
-               onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-               className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl border border-gray-200 text-gray-700 hover:border-agri-400 hover:text-agri-700 transition-colors shadow-sm"
+           <div className="flex items-center gap-3">
+             {/* Take Tour Button */}
+             <button
+               onClick={() => setIsTourOpen(true)}
+               className="flex items-center gap-2 bg-agri-100 px-4 py-2.5 rounded-xl text-agri-800 hover:bg-agri-200 transition-colors shadow-sm font-medium text-sm"
              >
-               <Globe size={18} />
-               <span className="font-medium text-sm">{LANGUAGES[activeLang]}</span>
+               <HelpCircle size={18} />
+               {t.takeTour}
              </button>
-             
-             {isLangMenuOpen && (
-               <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 p-2 z-40 animate-in fade-in zoom-in-95 duration-200">
-                 {(Object.keys(LANGUAGES) as Language[]).map((code) => (
-                   <button
-                     key={code}
-                     onClick={() => {
-                       setActiveLang(code);
-                       setIsLangMenuOpen(false);
-                     }}
-                     className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                       activeLang === code 
-                         ? 'bg-agri-50 text-agri-700' 
-                         : 'text-gray-600 hover:bg-gray-50'
-                     }`}
-                   >
-                     {LANGUAGES[code]}
-                   </button>
-                 ))}
-               </div>
-             )}
+
+             {/* Language Selector */}
+             <div className="relative" id="lang-selector">
+               <button 
+                 onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                 className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl border border-gray-200 text-gray-700 hover:border-agri-400 hover:text-agri-700 transition-colors shadow-sm"
+               >
+                 <Globe size={18} />
+                 <span className="font-medium text-sm">{LANGUAGES[activeLang]}</span>
+               </button>
+               
+               {isLangMenuOpen && (
+                 <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 p-2 z-40 animate-in fade-in zoom-in-95 duration-200">
+                   {(Object.keys(LANGUAGES) as Language[]).map((code) => (
+                     <button
+                       key={code}
+                       onClick={() => {
+                         setActiveLang(code);
+                         setIsLangMenuOpen(false);
+                       }}
+                       className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                         activeLang === code 
+                           ? 'bg-agri-50 text-agri-700' 
+                           : 'text-gray-600 hover:bg-gray-50'
+                       }`}
+                     >
+                       {LANGUAGES[code]}
+                     </button>
+                   ))}
+                 </div>
+               )}
+             </div>
            </div>
         </header>
 
