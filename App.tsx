@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { LayoutDashboard, Sprout, FlaskConical, Bug, MessageCircle, Menu, X, Leaf } from 'lucide-react';
 import { NavView } from './types';
@@ -57,15 +58,6 @@ const App: React.FC = () => {
             </button>
           ))}
         </nav>
-
-        <div className="mt-auto pt-6 border-t border-gray-100">
-          <div className="bg-gradient-to-br from-agri-500 to-agri-700 rounded-2xl p-4 text-white relative overflow-hidden">
-             <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10 blur-xl"></div>
-             <p className="text-sm font-medium relative z-10 mb-2">Upgrade to Pro</p>
-             <p className="text-xs text-agri-100 relative z-10 mb-3">Get advanced soil analytics & drone integration.</p>
-             <button className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm py-2 rounded-lg text-xs font-bold transition-colors">Learn More</button>
-          </div>
-        </div>
       </aside>
 
       {/* Mobile Header */}
